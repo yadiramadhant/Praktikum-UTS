@@ -1,0 +1,60 @@
+<?php
+  // Memanggil fungsi dari CSRF
+  include('../Config/Csrf.php');
+  include '../Controllers/Controller_kelas.php';
+  include '../Controllers/Controller_spp.php';
+
+  $kelas = new Controller_kelas();
+  $getKelas = $kelas->GetData_All();
+
+  $spp = new Controller_spp();
+  $getSpp = $spp->GetData_All();
+?>
+<form action="../Config/Routes.php?function=create_siswa" method="POST">
+<input type="text" name="csrf_token" value="<?php echo CreateCSRF();?>"/>
+<table border="1">
+    <tr>
+        <td>NISN</td>
+        <td><input type="text" required name="nisn"></td>
+    </tr>
+    <tr>
+        <td>NIS</td>
+        <td><input type="text" required name="nis"></td>
+    </tr>
+    <tr>
+        <td>Nama</td>
+        <td><input type="text" required name="nama"></td>
+    </tr>
+    <tr>
+        <td>Kelas</td>
+        <td>
+            <select name="id_kelas" required>
+                <?php foreach($getKelas as $kelas){ ?>
+                <option value="<?= $kelas['id_kelas'] ?>"><?= $kelas['nama_kelas'] ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Alamat</td>
+        <td><input type="text" required name="alamat"></td>
+    </tr>
+    <tr>
+        <td>Nomor Telepon</td>
+        <td><input type="text" required name="no_telp"></td>
+    </tr>
+    <tr>
+        <td>SPP</td>
+        <td>
+            <select name="id_spp">
+            <?php foreach($getSpp as $spp){ ?>
+                <option value="<?= $spp['id_spp'] ?>"><?= $spp['tahun'] ?></option>
+                <?php } ?>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" align="right"><input type="submit" name="proses" value="Create"></td>
+    </tr>
+</table
+</form>
